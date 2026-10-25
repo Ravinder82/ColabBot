@@ -1,0 +1,2 @@
+# ColabBot requires no external Python packages
+# It uses ComfyUI's native frontend extension system
