@@ -1,80 +1,101 @@
-# ⚡ ColabBot: Intelligent In-Browser Canvas Companion for ComfyUI
+# ⚡ ColabBot: Active AI Canvas Agent & Workflow Tutor for ComfyUI
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![ComfyUI: Custom Node](https://img.shields.io/badge/ComfyUI-Custom%20Node-success.svg)](https://github.com/comfyanonymous/ComfyUI)
-[![Gemini: 2.0 Flash](https://img.shields.io/badge/AI-Gemini%202.0%20Flash-orange.svg)](https://aistudio.google.com)
+[![Gemini: 2.0 Flash Function Calling](https://img.shields.io/badge/AI-Gemini%202.0%20Tools-orange.svg)](https://aistudio.google.com)
 [![Design: Apple HIG](https://img.shields.io/badge/Design-Apple%20HIG%20Frosted%20Glass-purple.svg)](https://developer.apple.com/design/human-interface-guidelines)
 
-**ColabBot** is an intelligent, in-browser AI creative companion designed specifically for **ComfyUI** and cloud runtimes like **Google Colab**. 
+**ColabBot** is an active, in-browser AI creative agent designed specifically for **ComfyUI** and cloud runtimes like **Google Colab**. 
 
-Instead of switching back and forth between terminal logs or chat windows, ColabBot lives directly inside your ComfyUI canvas tab as an elegant, non-intrusive floating assistant. It inspects your live workflow nodes, detects disconnected wires and missing models, centers the camera on red error nodes with a single click, and answers your creative questions using Google Gemini.
+Unlike passive chat bots that only give text instructions, ColabBot has **direct graph manipulation superpowers** powered by **Gemini 2.0 / 1.5 Flash Function Calling (Tool Use)**. It can directly wire outputs to inputs, create and position new nodes, adjust prompt text, configure sampler parameters, and auto-fix disconnected workflows with zero latency right inside your active canvas.
 
 ---
 
-## ✨ Features
+## ✨ Superpowers & Capabilities
 
-- **Apple HIG Frosted Glass Material**: Styled with translucent glass (`backdrop-filter: blur(28px)`), hairline specular highlights, and system typography.
-- **Unobtrusive & Draggable**: Collapses into a floating `⚡ ColabBot` pill with a live status indicator so your canvas pan and zoom are never obstructed. Drag the expanded window anywhere on your screen.
-- **Live Canvas Graph Diagnostics (`🩺 Scan`)**: Inspects `app.graph` in real time without calling an external API. Detects missing custom nodes, unconnected required input slots, diffusion models, and sampling step counts.
-- **1-Click Node Jump & Highlight**: When ColabBot finds an issue (such as an unlinked slot or a red missing node), click `Jump to Node #X`. The canvas camera smoothly glides to that node and pulses with a vivid blue highlight.
-- **Gemini 2.0 / 1.5 Flash Reasoning**: Ask questions about your prompt, character reference tags (like `<Picture 1>`), or generation settings. ColabBot automatically injects a token-efficient summary of your active canvas into the conversation.
-- **Private Key Management (`⚙️ Key`)**: Your Gemini API key is stored strictly in your browser's private `localStorage`. It is never written to disk, exposed in Colab notebook cells, or committed to GitHub.
+### 1. Active Graph Modification (Gemini Tool Calling)
+ColabBot integrates native function calling. When you give natural language instructions, Gemini returns structured tool calls that ColabBot executes directly against ComfyUI's live LiteGraph DOM:
+- **`connectNodes(fromNodeId, fromSlot, toNodeId, toSlot)`**: Wires outputs to inputs between nodes (e.g., connecting a UNETLoader model output to a sampler or video decoder).
+- **`addNode(nodeType, title, x, y)`**: Instantiates and places any registered node on the canvas near your current view center.
+- **`setWidgetValue(nodeId, widgetName, value)`**: Directly adjusts sampling steps, denoise, seeds, cfg, prompt text, or model dropdowns.
+- **`disconnectSlot(nodeId, slotIndex)`**: Disconnects wires from a slot.
+- **`removeNode(nodeId)`**: Deletes unnecessary or duplicate nodes.
+- **`arrangeCanvas(focusNodeId)`**: Adjusts and centers the camera on target nodes.
+
+### 2. Multi-Turn Autonomous Feedback Loop
+Whenever ColabBot executes a graph action, the result (`success`, node IDs, output messages) is automatically fed back to Gemini's context. Gemini verifies the outcome and provides an encouraging summary or continues with subsequent tool calls (up to 6 chained actions).
+
+### 3. One-Click `✨ Auto-Fix`
+Click the **`✨ Auto-Fix`** button in the header at any time. ColabBot will run a full diagnostic scan, detect disconnected wires or missing models, and autonomously dispatch the required tool calls to fix your canvas.
+
+### 4. Apple HIG Frosted Glass UI
+- Translucent dark glass (`backdrop-filter: blur(28px) saturate(190%)`).
+- Minimizes into a floating `⚡ ColabBot` status pill in the bottom corner so canvas pan/zoom is never blocked.
+- Draggable header to position the window anywhere on screen.
+- Visual pulse highlights (blue for newly added nodes, green for successful connections, orange for widget parameter updates).
+
+### 5. WebSocket & Python HTTP Bridge
+ColabBot registers a backend API route at `POST /colabbot/execute_tool`. Python scripts, background tasks, or headless automation can broadcast graph actions to the browser over ComfyUI's native WebSocket connection:
+```bash
+curl -X POST http://127.0.0.1:8188/colabbot/execute_tool \
+  -H "Content-Type: application/json" \
+  -d '{"tool": "setWidgetValue", "args": {"nodeId": 3, "widgetName": "steps", "value": "8"}}'
+```
 
 ---
 
 ## 🚀 Installation
 
-### 1. In Google Colab (Recommended)
+### In Google Colab (Recommended)
 
-In your Colab notebook right before launching ComfyUI, add this simple cell:
+In your Colab notebook before launching ComfyUI, add this simple cell:
 
 ```python
-# @title Step 4.5: Install ColabBot AI Companion
+# @title Step 4.5: Install ColabBot Active Agent
 import os, subprocess
 
-repo_url = "https://github.com/Ravinder82/ColabBot.git"  # Replace with your repo link
+ai_bot_repo_url = "https://github.com/Ravinder82/ColabBot.git"
 target_dir = "/content/ComfyUI/custom_nodes/ColabBot"
 
-if not os.path.exists(target_dir):
-    print(f"Cloning ColabBot from {repo_url}...")
-    subprocess.run(f"git clone {repo_url} {target_dir}", shell=True)
+if os.path.exists(target_dir):
+    print("Updating ColabBot to latest release...")
+    subprocess.run(f"git -C {target_dir} pull", shell=True, check=False)
 else:
-    print("Updating ColabBot to latest version...")
-    subprocess.run(f"cd {target_dir} && git pull", shell=True)
+    print(f"Cloning ColabBot from {ai_bot_repo_url}...")
+    subprocess.run(f"git clone {ai_bot_repo_url} {target_dir}", shell=True, check=True)
 
-print("✅ ColabBot is installed in /content/ComfyUI/custom_nodes/ColabBot!")
+print("✅ ColabBot installed successfully in /content/ComfyUI/custom_nodes/ColabBot!")
 ```
 
-### 2. Standard Local ComfyUI Installation
+### Standard Local ComfyUI Installation
 
-Clone this repository into your ComfyUI `custom_nodes` folder:
+Clone into your ComfyUI `custom_nodes` folder:
 
 ```bash
 cd ComfyUI/custom_nodes
 git clone https://github.com/Ravinder82/ColabBot.git
 ```
 
-Restart ComfyUI and refresh your browser tab. That's it! ComfyUI automatically detects the `web/` directory and loads the extension.
+Restart ComfyUI and refresh your browser tab.
 
 ---
 
-## 💡 How to Use ColabBot
+## 💡 Conversational Examples
 
-1. **Open ComfyUI**: Launch ComfyUI via your local URL or Cloudflare tunnel.
-2. **Locate the Floating Pill**: In the bottom-right corner of your screen, click **`⚡ ColabBot`**.
-3. **Run a Canvas Health Check**: Click **`🩺 Scan`**. ColabBot will inspect your workflow and list any missing connections or incorrect step counts.
-4. **Jump to Any Problem Node**: If an issue is flagged, click the **`Jump to Node #X`** button to center and highlight that node on your screen.
-5. **Chat with AI**: Click **`⚙️ Key`**, paste your free Google Gemini API key once, and ask questions like:
-   - *"How should I structure my prompt for character references?"*
-   - *"Why is my video decoding node failing?"*
-   - *"Are my sampling steps optimal for FastH3 Omni?"*
+Once ComfyUI opens, click **`⚡ ColabBot`** in the bottom-right corner and try:
+
+- *"Connect Node 66 to Node 69"*
+- *"Set sampling steps to 8 on Node 3"*
+- *"Add a SaveImage node and connect it to the VAE decode output"*
+- *"Inspect my canvas and fix any disconnected wires"*
+- Or click the **`✨ Auto-Fix`** button in the header!
 
 ---
 
 ## 🔒 Privacy & Security
 
-- **Client-Side Key Storage**: Your API key stays in your browser's private `localStorage`.
-- **Zero Heavy Backend Dependencies**: ColabBot uses ComfyUI's native frontend extension API, meaning no heavy Python packages or extra dependencies are needed.
+- **Private Client-Side Storage**: Your Google Gemini API key is stored strictly in your browser's private `localStorage`. It is never written to disk, exposed in Colab notebook cells, or committed to GitHub.
+- **Zero Heavy Dependencies**: Uses ComfyUI's native frontend extension system and LiteGraph DOM APIs.
 
 ---
 
