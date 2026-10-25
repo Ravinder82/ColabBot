@@ -3,7 +3,7 @@ ColabBot - Flagship AI Canvas Companion & Active Workflow Agent for ComfyUI
 
 A native ComfyUI custom node extension that embeds an intelligent,
 Apple HIG-inspired frosted-glass assistant directly inside your canvas.
-Provides live node graph inspection, Gemini 2.0 / 1.5 Flash tool calling
+Provides live node graph inspection, Gemini 2.5 Flash tool calling
 (addNode, connectNodes, setWidgetValue, removeNode, disconnectSlot),
 1-click node camera centering, and WebSocket/HTTP execution hooks.
 """

@@ -2,12 +2,12 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![ComfyUI: Custom Node](https://img.shields.io/badge/ComfyUI-Custom%20Node-success.svg)](https://github.com/comfyanonymous/ComfyUI)
-[![Gemini: 2.0 Flash Function Calling](https://img.shields.io/badge/AI-Gemini%202.0%20Tools-orange.svg)](https://aistudio.google.com)
+[![Gemini: 2.5 Flash Function Calling](https://img.shields.io/badge/AI-Gemini%202.5%20Tools-orange.svg)](https://aistudio.google.com)
 [![Design: Apple HIG](https://img.shields.io/badge/Design-Apple%20HIG%20Frosted%20Glass-purple.svg)](https://developer.apple.com/design/human-interface-guidelines)
 
 **ColabBot** is an active, in-browser AI creative agent designed specifically for **ComfyUI** and cloud runtimes like **Google Colab**. 
 
-Unlike passive chat bots that only give text instructions, ColabBot has **direct graph manipulation superpowers** powered by **Gemini 2.0 / 1.5 Flash Function Calling (Tool Use)**. It can directly wire outputs to inputs, create and position new nodes, adjust prompt text, configure sampler parameters, and auto-fix disconnected workflows with zero latency right inside your active canvas.
+Unlike passive chat bots that only give text instructions, ColabBot has **direct graph manipulation superpowers** powered by **Gemini 2.5 Flash Function Calling (Tool Use)**. It can directly wire outputs to inputs, create and position new nodes, adjust prompt text, configure sampler parameters, and auto-fix disconnected workflows with zero latency right inside your active canvas.
 
 ---
 

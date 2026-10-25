@@ -1,5 +1,5 @@
 // ColabBot - Active AI Canvas Companion & Workflow Agent for ComfyUI
-// Implements Gemini 2.0 / 1.5 Flash Function Calling (Tool Use) for Direct Canvas Manipulation
+// Implements Gemini 2.5 Flash Function Calling (Tool Use) for Direct Canvas Manipulation
 // Designed following Apple Human Interface Guidelines (macOS Sequoia & VisionOS frosted glass)
 
 import { app } from "../../scripts/app.js";
@@ -313,7 +313,7 @@ app.registerExtension({
                         <input type="checkbox" id="colabbot-attach-graph" checked style="cursor:pointer; accent-color:#007AFF;">
                         Live canvas synchronization & tool use
                     </label>
-                    <span id="colabbot-model-badge" style="font-size:10px; color:#60A5FA;">Gemini 2.0 Flash Tools</span>
+                    <span id="colabbot-model-badge" style="font-size:10px; color:#60A5FA;">Gemini 2.5 Flash Tools</span>
                 </div>
                 <div style="display:flex; gap:8px;">
                     <textarea id="colabbot-user-input" class="colabbot-textarea" placeholder="Ask to connect wires, add nodes, or configure parameters..."></textarea>
@@ -785,7 +785,7 @@ ${graphSnapshot ? `Current Canvas State:
                 while (loopCount < MAX_TOOL_LOOPS) {
                     loopCount++;
 
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(requestBody)
