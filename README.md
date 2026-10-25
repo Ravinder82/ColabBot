@@ -32,7 +32,7 @@ In your Colab notebook right before launching ComfyUI, add this simple cell:
 # @title Step 4.5: Install ColabBot AI Companion
 import os, subprocess
 
-repo_url = "https://github.com/1294ravinder/ColabBot.git"  # Replace with your repo link
+repo_url = "https://github.com/Ravinder82/ColabBot.git"  # Replace with your repo link
 target_dir = "/content/ComfyUI/custom_nodes/ColabBot"
 
 if not os.path.exists(target_dir):
@@ -51,7 +51,7 @@ Clone this repository into your ComfyUI `custom_nodes` folder:
 
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/1294ravinder/ColabBot.git
+git clone https://github.com/Ravinder82/ColabBot.git
 ```
 
 Restart ComfyUI and refresh your browser tab. That's it! ComfyUI automatically detects the `web/` directory and loads the extension.
